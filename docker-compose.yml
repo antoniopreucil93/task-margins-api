@@ -5,9 +5,7 @@ services:
     environment:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: root
-      POSTGRES_DB: library
-    volumes:
-      - ~/backup/postgres:/var/lib/postgresql/data
+      POSTGRES_DB: sports
     ports:
       - '5432:5432'
   api:
@@ -15,7 +13,7 @@ services:
     environment:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: root
-      POSTGRES_DB: library
+      POSTGRES_DB: sports
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
     depends_on:

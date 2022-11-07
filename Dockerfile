@@ -12,4 +12,4 @@ RUN npm run tsc
 
 EXPOSE 3000
 
-CMD ["node", "dist/server.js"]
+CMD ./run/run.sh && npm run start

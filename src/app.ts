@@ -6,13 +6,13 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as swaggerUi from 'swagger-ui-express';
 
-const swaggerDocument = require('../swagger.json');
-
 // database custom imports
 import Database from './database/database';
 
 import routes from './routes';
 import datasource from './database/datasource';
+
+const swaggerDocument = require('../swagger.json');
 
 export async function createApp(): Promise<express.Express> {
     const app: express.Express = express();
@@ -23,8 +23,9 @@ export async function createApp(): Promise<express.Express> {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     app.use('/api', routes());
+
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     return app;
 }

@@ -2,10 +2,11 @@ import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { compare } from 'bcrypt';
 
+import datasource from '../../database/datasource';
+
 import { loginValidator } from '../../validators';
 import { UserEntity } from '../../database/entities/user.entity';
 import { User } from '../../models';
-import datasource from '../../database/datasource';
 
 export async function login(req: Request, res: Response): Promise<Response> {
     const { error, value } = loginValidator.validate({

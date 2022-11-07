@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
-        "title": "Library REST API",
+        "title": "SPORTS REST API",
         "description": ""
     },
     "host": "localhost:3000",
@@ -12,6 +12,7 @@
         "/api/register": {
             "post": {
                 "description": "",
+                "tags": ["Auth"],
                 "parameters": [
                     {
                         "name": "body",
@@ -45,6 +46,7 @@
         "/api/login": {
             "post": {
                 "description": "",
+                "tags": ["Auth"],
                 "parameters": [
                     {
                         "name": "body",
@@ -78,9 +80,30 @@
                 }
             }
         },
-        "/api/fetch-books": {
+        "/api/verify": {
             "get": {
                 "description": "",
+                "tags": ["Auth"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/fetch-sports": {
+            "get": {
+                "description": "",
+                "tags": ["Sport"],
                 "parameters": [
                     {
                         "name": "authorization",
@@ -101,12 +124,13 @@
                 }
             }
         },
-        "/api/fetch-book/{bookId}": {
+        "/api/fetch-sport/{bookId}": {
             "get": {
                 "description": "",
+                "tags": ["Sport"],
                 "parameters": [
                     {
-                        "name": "bookId",
+                        "name": "sportId",
                         "in": "path",
                         "required": true,
                         "type": "string"
@@ -133,9 +157,10 @@
                 }
             }
         },
-        "/api/add-book": {
+        "/api/create-sport": {
             "post": {
                 "description": "",
+                "tags": ["Sport"],
                 "parameters": [
                     {
                         "name": "authorization",
@@ -148,7 +173,7 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "title": {
+                                "name": {
                                     "example": "any"
                                 },
                                 "description": {
@@ -174,12 +199,13 @@
                 }
             }
         },
-        "/api/update-book/{bookId}": {
+        "/api/update-sport/{sportId}": {
             "patch": {
                 "description": "",
+                "tags": ["Sport"],
                 "parameters": [
                     {
-                        "name": "bookId",
+                        "name": "sportId",
                         "in": "path",
                         "required": true,
                         "type": "string"
@@ -195,7 +221,7 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "title": {
+                                "name": {
                                     "example": "any"
                                 },
                                 "description": {
@@ -221,12 +247,38 @@
                 }
             }
         },
-        "/api/delete-book/{bookId}": {
-            "delete": {
+
+        "/api/fetch-classes": {
+            "get": {
                 "description": "",
+                "tags": ["Sport class"],
                 "parameters": [
                     {
-                        "name": "bookId",
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/fetch-class/{classId}": {
+            "get": {
+                "description": "",
+                "tags": ["Sport class"],
+                "parameters": [
+                    {
+                        "name": "classId",
                         "in": "path",
                         "required": true,
                         "type": "string"
@@ -253,9 +305,69 @@
                 }
             }
         },
-        "/api/borrow-book": {
+
+        "/api/admin/fetch-classes": {
+            "get": {
+                "description": "",
+                "tags": ["Sport class"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/admin/fetch-class/{classId}": {
+            "get": {
+                "description": "",
+                "tags": ["Sport class"],
+                "parameters": [
+                    {
+                        "name": "classId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+
+        "/api/create-class": {
             "post": {
                 "description": "",
+                "tags": ["Sport class"],
                 "parameters": [
                     {
                         "name": "authorization",
@@ -268,8 +380,403 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "bookId": {
-                                    "example": "any"
+                                "ageLevel": {
+                                    "type": "string",
+                                    "enum": ["adult", "youngAdult", "youth", "children"]
+                                },
+                                "weekSchedule": {
+                                    "type": "json"
+                                },
+                                "maxNumberOfParticipants": {
+                                    "type": "number"
+                                },
+                                "sportId": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/update-class/{classId}": {
+            "patch": {
+                "description": "",
+                "tags": ["Sport class"],
+                "parameters": [
+                    {
+                        "name": "classId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ageLevel": {
+                                    "type": "string",
+                                    "enum": ["adult", "youngAdult", "youth", "children"]
+                                },
+                                "weekSchedule": {
+                                    "type": "json"
+                                },
+                                "maxNumberOfParticipants": {
+                                    "type": "number"
+                                },
+                                "sportId": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+
+        "/api/admin/fetch-users": {
+            "get": {
+                "description": "",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/admin/fetch-user/{userId}": {
+            "get": {
+                "description": "",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/admin/create-user": {
+            "post": {
+                "description": "",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "ageRevel": {
+                                    "type": "string",
+                                    "enum": ["adult", "youngAdult", "youth", "children"]
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "enum": ["admin", "user"]
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/admin/update-user/{userId}": {
+            "patch": {
+                "description": "",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "ageRevel": {
+                                    "type": "string",
+                                    "enum": ["adult", "youngAdult", "youth", "children"]
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "enum": ["admin", "user"]
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+
+        "/api/create-rate": {
+            "post": {
+                "description": "",
+                "tags": ["User action"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "rate": {
+                                    "type": "number"
+                                },
+                                "classId": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+
+        "/api/create-comment": {
+            "post": {
+                "description": "",
+                "tags": ["User action"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "comment": {
+                                    "type": "string"
+                                },
+                                "classId": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+
+        "/api/apply-on-class": {
+            "post": {
+                "description": "",
+                "tags": ["Sport class participation"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "classId": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+
+        "/api/sign-out-from-class": {
+            "post": {
+                "description": "",
+                "tags": ["Sport class participation"],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "classId": {
+                                    "type": "number"
                                 }
                             }
                         }

@@ -29,6 +29,7 @@ const router: Router = Router();
 
 export default function routes(): Router {
     // auth routes
+
     router.post('/register', (req: Request, res: Response) => register(req, res));
     router.post('/login', (req: Request, res: Response) => login(req, res));
     router.get('/verify', (req: Request, res: Response) => verifyUser(req, res));
@@ -47,7 +48,7 @@ export default function routes(): Router {
         (req: Request, res: Response) => signOutFromClass(req, res)
     );
 
-    // CRUD sports bu admin
+    // CRUD sports by admin
 
     router.get(
         '/fetch-sports',

@@ -31,35 +31,23 @@ npm run db:init
 Compile and run project
 
 ```bash
-npm run dev
+npm run start
 ```
 
 ## Installation (with docker composer)
 
-Docker composer must be installed on pc. Create .env file and define environment variables. You can open .env.example for reference. Modify env variables in docker-compose file if they need to be changed . Keep them the same as those in .env file.
+Docker composer must be installed on pc. Create .env file and define environment variables. You can open .env.example for reference. Modify env variables in docker-compose file if they need to be changed, keep them the same as those in .env file.
 
 build docker image
 
 ```bash
-docker build -t margins-api
+docker build -t margins-api .
 ```
 
 Run docker compose
 
 ```bash
-docker-compose up
-```
-
-Log in into api docker container
-
-```bash
-docker exec -it <container-id> bash
-```
-
-Run migrations
-
-```bash
-npm run db:init
+docker-compose up -d
 ```
 
 ## License
