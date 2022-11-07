@@ -41,20 +41,21 @@ export async function applyOnClass(req: Request, res: Response): Promise<Respons
         if (!user) return res.status(404).json('Sport not found!');
 
         const totalNumberOfclassParticipants: number =
-            await classParticipantsRepository.findTotalNumberOfApplicationsOnClass(sportClass.id);
+            await classParticipantsRepository.findTotalNumberOfUsersAppliedOnClass(sportClass.id);
 
-        const totalUserApplications: number =
-            await classParticipantsRepository.findTotalUserClassApplications(userId);
+        const userApplicationsTotal: number =
+            await classParticipantsRepository.findTotalNumberOfUserApplicationsOnClasses(userId);
 
-        let validatorResponse = classParticpantServiceValidator.validateUserApplication(
-            totalNumberOfclassParticipants,
-            totalUserApplications,
-            sportClass,
-            user
-        );
+        let classApplicationValidatorResponse =
+            classParticpantServiceValidator.validateUserApplication(
+                totalNumberOfclassParticipants,
+                userApplicationsTotal,
+                sportClass,
+                user
+            );
 
-        if (!validatorResponse.status) {
-            return res.status(400).json(validatorResponse.error);
+        if (!classApplicationValidatorResponse.status) {
+            return res.status(400).json(classApplicationValidatorResponse.error);
         }
 
         let newClassParticipant = classParticpantService.applyUserOnClass(sportClass, user);
