@@ -1,4 +1,4 @@
-# Library API
+# Sport API
 
 Test task for Margins. Application can be started with or withour Docker.
 
