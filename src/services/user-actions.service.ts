@@ -1,14 +1,14 @@
 import { Class, UserAction } from '../models';
 
 export class UserActionService {
-    public createRate(sportClass: Class, rate: number) {
+    public createRate(sportClass: Class, rate: number): UserAction {
         const newUserAction = new UserAction();
         newUserAction.rate = rate;
         newUserAction.class = sportClass;
         return newUserAction;
     }
 
-    public createComment(sportClass: Class, comment: string) {
+    public createComment(sportClass: Class, comment: string): UserAction {
         const newUserAction = new UserAction();
         newUserAction.comment = comment;
         newUserAction.class = sportClass;

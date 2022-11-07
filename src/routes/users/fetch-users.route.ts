@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+
 import datasource from '../../database/datasource';
+
 import { UserEntity } from '../../database/entities/user.entity';
 import { User } from '../../models';
 

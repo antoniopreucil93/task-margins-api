@@ -1,13 +1,12 @@
 import { hashSync } from 'bcrypt';
 import { Request, Response } from 'express';
+
 import datasource from '../../database/datasource';
 
+import { userRepository } from '../../database/repositories/user.repository';
 import { UserEntity } from '../../database/entities/user.entity';
 import { User } from '../../models';
-import { UserService } from '../../services/user.service';
 import { userUpdateValidator } from '../../validators/user.validator';
-
-const userService = new UserService();
 
 export async function updateUser(req: Request, res: Response): Promise<Response> {
     const { error, value } = userUpdateValidator.validate({
@@ -23,11 +22,7 @@ export async function updateUser(req: Request, res: Response): Promise<Response>
     try {
         const userId: number = +req.params['userId'];
 
-        const user: User = await datasource.getRepository(UserEntity).findOne({
-            where: {
-                id: userId,
-            },
-        });
+        const user: User = await userRepository.findUserById(userId);
 
         if (!user) {
             return res.status(404).json('User not found!');
