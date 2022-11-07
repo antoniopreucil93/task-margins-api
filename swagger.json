@@ -807,27 +807,57 @@
                 "username": { "type": "string" },
                 "password": { "type": "string" },
                 "role": { "type": "user|admin" },
+                "ageLevel": {
+                    "type": "string",
+                    "enum": ["adult", "youngAdult", "youth", "children"]
+                },
+                "isVerified": { "type": "boolean" },
                 "createdAt": { "type": "date" },
                 "updatedAt": { "type": "date" }
             }
         },
-        "Library": {
+        "Sport": {
             "type": "object",
             "properties": {
                 "id": { "type": "integer" },
-                "title": { "type": "string" },
+                "name": { "type": "string" },
                 "description": { "type": "string" },
                 "createdAt": { "type": "date" },
                 "updatedAt": { "type": "date" }
             }
         },
-        "BorrowedBook": {
+        "Class": {
             "type": "object",
             "properties": {
                 "id": { "type": "integer" },
-                "petId": { "type": "integer" },
-                "quantity": { "type": "integer" },
-                "shipDate": { "type": "string" },
+                "sportId": { "type": "integer" },
+                "description": { "type": "string" },
+                "ageLevel": {
+                    "type": "string",
+                    "enum": ["adult", "youngAdult", "youth", "children"]
+                },
+                "weekSchedule": { "type": "json" },
+                "createdAt": { "type": "date" },
+                "updatedAt": { "type": "date" }
+            }
+        },
+        "ClassParticipant": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "integer" },
+                "userId": { "type": "integer" },
+                "classId": { "type": "integer" },
+                "createdAt": { "type": "date" },
+                "updatedAt": { "type": "date" }
+            }
+        },
+        "UserAction": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "integer" },
+                "classId": { "type": "integer" },
+                "rate": { "type": "integer" },
+                "comment": { "type": "integer" },
                 "createdAt": { "type": "date" },
                 "updatedAt": { "type": "date" }
             }

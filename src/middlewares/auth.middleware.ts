@@ -10,7 +10,7 @@ import { UserRole } from '../enum';
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const tokenHeader = req.headers['authorization'];
-        console.log(req, ' token header');
+
         if (!tokenHeader) {
             return res.status(401).send('Missing token.');
         }
