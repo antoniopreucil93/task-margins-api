@@ -59,7 +59,13 @@ export async function createRate(req: Request, res: Response): Promise<Response>
             return newUserAction;
         });
 
-        return res.json(newUserAction).status(200);
+        const userAction: UserAction = await datasource.getRepository(UserActionEntity).findOne({
+            where: {
+                id: newUserAction.id,
+            },
+        });
+
+        return res.json(userAction).status(200);
     } catch (err) {
         return res.status(500).send(err);
     }
