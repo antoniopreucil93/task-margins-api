@@ -6,6 +6,7 @@ import datasource from '../database/datasource';
 import { UserEntity } from '../database/entities/user.entity';
 import { User } from '../models';
 import { UserRole } from '../enum';
+import { userRepository } from '../database/repositories/user.repository';
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -25,11 +26,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
 
         const userId = tokenPayload['userId'];
 
-        const user: User = await datasource.getRepository(UserEntity).findOne({
-            where: {
-                id: userId,
-            },
-        });
+        const user: User = await userRepository.findUserById(userId);
 
         if (!user.isVerified) {
             return res.status(400).json({ message: 'User not verified.' });
