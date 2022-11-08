@@ -24,6 +24,7 @@ import { updateUser } from './users/update-user.route';
 import { deleteUser } from './users/delete-user.route';
 import { signOutFromClass } from './class-participants/sign-out-on-class.route';
 import { verifyUser } from './auth/verify.route';
+import { fetchSportClassesForAdmin } from './clasess/fetch-sport-classes.route';
 
 const router: Router = Router();
 
@@ -98,6 +99,12 @@ export default function routes(): Router {
         '/admin/fetch-class/:classId',
         [verifyToken, role([UserRole.ADMIN])],
         (req: Request, res: Response) => fetchOneClassForAdmin(req, res)
+    );
+
+    router.get(
+        '/admin/sport/fetch-classes/:sportId',
+        [verifyToken, role([UserRole.ADMIN])],
+        (req: Request, res: Response) => fetchSportClassesForAdmin(req, res)
     );
 
     router.post(
