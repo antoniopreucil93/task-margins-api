@@ -25,6 +25,7 @@ import { deleteUser } from './users/delete-user.route';
 import { signOutFromClass } from './class-participants/sign-out-on-class.route';
 import { verifyUser } from './auth/verify.route';
 import { fetchSportClassesForAdmin } from './clasess/fetch-sport-classes.route';
+import { fetchClassParticipants } from './class-participants/fetch-class-participants.route';
 
 const router: Router = Router();
 
@@ -36,6 +37,12 @@ export default function routes(): Router {
     router.get('/verify', (req: Request, res: Response) => verifyUser(req, res));
 
     // apply on class by the user
+
+    router.get(
+        '/admin/fetch-class-participants/:classId',
+        [verifyToken, role([UserRole.ADMIN])],
+        (req: Request, res: Response) => fetchClassParticipants(req, res)
+    );
 
     router.post(
         '/apply-on-class',
